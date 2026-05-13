@@ -9,9 +9,13 @@ from datetime import datetime
 app = Flask(__name__, static_folder='.', static_url_path='')
 CORS(app)
 
-DB_PATH = "/home/openclaw/.openclaw/workspace/ancient_characters.db"
-DATA_DIR = "/home/openclaw/.openclaw/workspace/extracted_final_v7"
+# 支持环境变量配置路径
+DB_PATH = os.getenv('DB_PATH', "/home/openclaw/.openclaw/workspace/ancient_characters.db")
+DATA_DIR = os.getenv('DATA_DIR', "/home/openclaw/.openclaw/workspace/extracted_final_v7")
 GLYPH_DIR = os.path.join(DATA_DIR, "字形图片")
+
+# 获取端口
+PORT = int(os.getenv('PORT', 5000))
 
 def get_db():
     """获取数据库连接"""
@@ -583,4 +587,4 @@ def health():
     return jsonify({'status': 'ok'})
 
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0', port=5000)
+    app.run(debug=False, host='0.0.0.0', port=PORT)

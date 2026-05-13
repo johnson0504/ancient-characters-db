@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古文字库 - 项目展示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: white;
+            border-radius: 12px;
+            padding: 60px 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 3em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        header .subtitle {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        header .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            color: #999;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn-secondary:hover {
+            background: #f8f9ff;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .feature-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .tech-stack {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .tech-stack h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .tech-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .tech-item {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .tech-item strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .tech-item span {
+            color: #999;
+            font-size: 0.9em;
+        }
+        
+        .highlights {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .highlights h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .highlight-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+        }
+        
+        .highlight-item::before {
+            content: "✓";
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        footer {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            color: #999;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 40px 20px;
+            }
+            
+            header h1 {
+                font-size: 2em;
+            }
+            
+            header .stats {
+                gap: 20px;
+            }
+            
+            .stat-number {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏛️ 古文字库系统</h1>
+            <p class="subtitle">完整的古文字数据库 - 支持 7 个朝代的字形演变查询</p>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">839</div>
+                    <div class="stat-label">字头总数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5661</div>
+                    <div class="stat-label">字形总数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">朝代覆盖</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">27.4%</div>
+                    <div class="stat-label">注释覆盖率</div>
+                </div>
+            </div>
+            
+            <div class="cta-buttons">
+                <a href="/char_detail.html" class="btn btn-primary">🚀 立即体验</a>
+                <a href="#features" class="btn btn-secondary">📖 了解详情</a>
+            </div>
+        </header>
+        
+        <div class="features" id="features">
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3>智能搜索</h3>
+                <p>支持单字搜索，自动转换繁体字，快速定位任意字头及其所有朝代的字形演变。</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📜</div>
+                <h3>字形演变</h3>
+                <p>按朝代分组展示字形演变过程，包括商、周、晋、楚、燕、秦、齐等 7 个历史朝代。</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📝</div>
+                <h3>注释系统</h3>
+                <p>完整的字头注释管理，支持注释来源追踪，可批量导入和编辑注释数据。</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>高性能 API</h3>
+                <p>RESTful API 接口，支持快速查询、批量导入、跨域请求，可集成到其他系统。</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>响应式设计</h3>
+                <p>完全响应式前端界面，支持桌面、平板、手机等各种设备的完美显示。</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔐</div>
+                <h3>数据完整</h3>
+                <p>2MB 核心数据库 + 45MB 图片资源，完整的字形图片和出处编码信息。</p>
+            </div>
+        </div>
+        
+        <div class="tech-stack">
+            <h2>🛠️ 技术栈</h2>
+            <div class="tech-items">
+                <div class="tech-item">
+                    <strong>后端框架</strong>
+                    <span>Flask 2.3.3 + Flask-CORS</span>
+                </div>
+                <div class="tech-item">
+                    <strong>数据库</strong>
+                    <span>SQLite3 (规范化设计)</span>
+                </div>
+                <div class="tech-item">
+                    <strong>前端技术</strong>
+                    <span>HTML5 + CSS3 + JavaScript</span>
+                </div>
+                <div class="tech-item">
+                    <strong>部署环境</strong>
+                    <span>Python 3.8+ (Linux/macOS/WSL)</span>
+                </div>
+                <div class="tech-item">
+                    <strong>API 风格</strong>
+                    <span>RESTful + JSON</span>
+                </div>
+                <div class="tech-item">
+                    <strong>跨域支持</strong>
+                    <span>CORS 完全支持</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="highlights">
+            <h2>✨ 项目亮点</h2>
+            <div class="highlight-list">
+                <div class="highlight-item">完整的字头数据库（839 个字头）</div>
+                <div class="highlight-item">多朝代字形展示（7 个朝代）</div>
+                <div class="highlight-item">智能搜索和繁体转换</div>
+                <div class="highlight-item">注释管理系统</div>
+                <div class="highlight-item">RESTful API 接口</div>
+                <div class="highlight-item">批量数据导入功能</div>
+                <div class="highlight-item">响应式前端界面</div>
+                <div class="highlight-item">生产级代码质量</div>
+                <div class="highlight-item">完整的文档和指南</div>
+                <div class="highlight-item">即插即用部署</div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>古文字库系统 v1.0 | 生产就绪 ✅ | 最后更新：2026-05-06</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+                <a href="/char_detail.html" style="color: #667eea; text-decoration: none;">进入应用</a> | 
+                <a href="https://github.com" style="color: #667eea; text-decoration: none;">GitHub</a> | 
+                <a href="README.md" style="color: #667eea; text-decoration: none;">文档</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
