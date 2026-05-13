@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古文字库 - 字头详情</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 搜索栏 */
+        .search-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .search-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .search-input button {
+            padding: 12px 24px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .search-input button:hover {
+            background: #0056b3;
+        }
+
+        /* 字头详情 */
+        .char-detail {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .char-header {
+            padding: 30px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .char-display {
+            font-size: 80px;
+            font-weight: bold;
+            color: #333;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .char-info {
+            flex: 1;
+        }
+
+        .char-info h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .char-info p {
+            color: #666;
+            margin: 5px 0;
+        }
+
+        /* 注释区块 */
+        .annotation-section {
+            padding: 30px;
+            border-bottom: 2px solid #f0f0f0;
+            background: #fafafa;
+        }
+
+        .annotation-section h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .annotation-text {
+            background: white;
+            padding: 15px;
+            border-left: 4px solid #007bff;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .annotation-sources {
+            margin-top: 15px;
+        }
+
+        .source-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border-left: 3px solid #28a745;
+        }
+
+        .source-type {
+            font-weight: bold;
+            color: #28a745;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .source-text {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .no-annotation {
+            color: #999;
+            font-style: italic;
+        }
+
+        /* 字形区块 */
+        .glyphs-section {
+            padding: 30px;
+        }
+
+        .glyphs-section h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .dynasty-group {
+            margin-bottom: 30px;
+        }
+
+        .dynasty-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #007bff;
+        }
+
+        .glyphs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .glyph-item {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .glyph-item:hover {
+            border-color: #007bff;
+            box-shadow: 0 4px 8px rgba(0,123,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .glyph-image {
+            width: 100%;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 8px;
+            background: white;
+        }
+
+        .glyph-source {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            word-break: break-all;
+        }
+
+        .glyph-caption {
+            font-size: 11px;
+            color: #999;
+        }
+
+        /* 加载状态 */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #007bff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 错误状态 */
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .char-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .char-display {
+                font-size: 60px;
+            }
+
+            .glyphs-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 搜索栏 -->
+        <div class="search-bar">
+            <div class="search-input">
+                <input type="text" id="searchInput" placeholder="输入单个汉字搜索..." maxlength="1">
+                <button onclick="searchChar()">搜索</button>
+            </div>
+        </div>
+
+        <!-- 详情区域 -->
+        <div id="detailArea"></div>
+    </div>
+
+    <script>
+        const API_BASE = '/api';
+
+        // 搜索字符
+        function searchChar() {
+            const input = document.getElementById('searchInput');
+            const char = input.value.trim();
+
+            if (!char) {
+                alert('请输入一个字符');
+                return;
+            }
+
+            loadCharDetail(char);
+        }
+
+        // 回车搜索
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchChar();
+            }
+        });
+
+        // 加载字头详情
+        async function loadCharDetail(char) {
+            const detailArea = document.getElementById('detailArea');
+            detailArea.innerHTML = '<div class="loading"><div class="spinner"></div>加载中...</div>';
+
+            try {
+                // 并行加载字形和注释
+                const [glyphRes, annotationRes] = await Promise.all([
+                    fetch(`${API_BASE}/search?q=${encodeURIComponent(char)}`),
+                    fetch(`${API_BASE}/char/${encodeURIComponent(char)}/annotation`)
+                ]);
+
+                if (!glyphRes.ok) {
+                    throw new Error('字形数据加载失败');
+                }
+
+                const glyphData = await glyphRes.json();
+                const annotationData = annotationRes.ok ? await annotationRes.json() : null;
+
+                renderCharDetail(glyphData, annotationData);
+            } catch (error) {
+                detailArea.innerHTML = `<div class="error">❌ ${error.message}</div>`;
+            }
+        }
+
+        // 渲染字头详情
+        function renderCharDetail(glyphData, annotationData) {
+            const detailArea = document.getElementById('detailArea');
+            const char = glyphData.char;
+            const phonetic = glyphData.phonetic_group || '未分类';
+            const annotation = annotationData?.annotation;
+
+            let html = `
+                <div class="char-detail">
+                    <!-- 字头信息 -->
+                    <div class="char-header">
+                        <div class="char-display">${char}</div>
+                        <div class="char-info">
+                            <h2>${char}</h2>
+                            <p><strong>拼音分组：</strong> ${phonetic}</p>
+                            <p><strong>字形总数：</strong> ${glyphData.dynasties.reduce((sum, d) => sum + d.glyphs.length, 0)}</p>
+                            <p><strong>朝代数：</strong> ${glyphData.dynasties.length}</p>
+                        </div>
+                    </div>
+
+                    <!-- 注释区块 -->
+                    <div class="annotation-section">
+                        <h3>📖 注释</h3>
+                        ${annotation ? `
+                            <div class="annotation-text">${escapeHtml(annotation.text)}</div>
+                            ${annotation.sources && annotation.sources.length > 0 ? `
+                                <div class="annotation-sources">
+                                    ${annotation.sources.map(source => `
+                                        <div class="source-item">
+                                            <div class="source-type">${escapeHtml(source.type)}</div>
+                                            <div class="source-text">${escapeHtml(source.text)}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        ` : `
+                            <p class="no-annotation">暂无注释</p>
+                        `}
+                    </div>
+
+                    <!-- 字形区块 -->
+                    <div class="glyphs-section">
+                        <h3>🖼️ 字形演变</h3>
+                        ${glyphData.dynasties.map(dynasty => `
+                            <div class="dynasty-group">
+                                <div class="dynasty-title">${dynasty.name}朝</div>
+                                <div class="glyphs-grid">
+                                    ${dynasty.glyphs.map(glyph => `
+                                        <div class="glyph-item" onclick="viewGlyph(${glyph.id})">
+                                            <img src="/images/${encodeURIComponent(glyph.filename)}" alt="${glyph.source_code}" class="glyph-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2212%22%3E图片加载失败%3C/text%3E%3C/svg%3E'">
+                                            <div class="glyph-source">${escapeHtml(glyph.source_code)}</div>
+                                            <div class="glyph-caption">变体 ${glyph.variant_index + 1}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            detailArea.innerHTML = html;
+        }
+
+        // 查看字形详情
+        function viewGlyph(glyphId) {
+            alert(`字形 ID: ${glyphId}\n功能开发中...`);
+        }
+
+        // HTML转义
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // 页面加载时的初始化
+        window.addEventListener('load', () => {
+            // 可选：自动加载某个字符
+            // loadCharDetail('喜');
+        });
+    </script>
+</body>
+</html>

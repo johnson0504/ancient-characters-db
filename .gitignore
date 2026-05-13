@@ -1,0 +1,14 @@
+venv_ancient/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.DS_Store
+*.db
+extracted_final/
+extracted_final_v7/
+.env
+.venv
+node_modules/
+dist/
+build/
