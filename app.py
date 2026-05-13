@@ -9,9 +9,10 @@ from datetime import datetime
 app = Flask(__name__, static_folder='.', static_url_path='')
 CORS(app)
 
-# 支持环境变量配置路径
-DB_PATH = os.getenv('DB_PATH', "/home/openclaw/.openclaw/workspace/ancient_characters.db")
-DATA_DIR = os.getenv('DATA_DIR', "/home/openclaw/.openclaw/workspace/extracted_final_v7")
+# 路径配置：优先使用环境变量，否则使用相对于项目目录的路径
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.getenv('DB_PATH', os.path.join(BASE_DIR, "ancient_characters.db"))
+DATA_DIR = os.getenv('DATA_DIR', os.path.join(BASE_DIR, "extracted_final"))
 GLYPH_DIR = os.path.join(DATA_DIR, "字形图片")
 
 # 获取端口
